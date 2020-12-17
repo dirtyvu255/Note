@@ -28,7 +28,7 @@ export default  class HomeScreen extends React.Component{
     this.getDataPriority()
     this.getDataCategory()
   }
-  componentDidUpdate(prevState){
+  componentDidUpdate(prevProps, prevState){
     if(prevState.data !== this.state.data){
       this.getDataStatus()
       this.getDataPriority()

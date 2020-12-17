@@ -59,27 +59,18 @@ export default class Attribute extends React.Component{
                 .collection(`Users/${userID}/Category`)
                 .doc(`${id}`)
                 .delete()
-                .then(() => {
-                    console.log('User deleted!');
-                });
         }
         if(type == "Status"){
             firestore()
                 .collection(`Users/${userID}/Status`)
                 .doc(`${id}`)
                 .delete()
-                .then(() => {
-                    console.log('User deleted!');
-                });
         }
         if(type == "Priority"){
             firestore()
                 .collection(`Users/${userID}/Priority`)
                 .doc(`${id}`)
                 .delete()
-                .then(() => {
-                    console.log('User deleted!');
-                });
         }
     }
     toggleModal(){
