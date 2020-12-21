@@ -104,7 +104,7 @@ export default class Attribute extends React.Component{
         this.setState({isModalVisible: !this.state.isModalVisible})
         this.setState({error: ''})
     }
-    
+
     toggleEdit(item){
         if(item.count == 0 ){
             this.setState({isModalVisible: !this.state.isModalVisible})
@@ -135,7 +135,7 @@ export default class Attribute extends React.Component{
                         </View>
                         {this.state.isVisible ? (
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={() => this.toggleModal()}>
+                            <TouchableOpacity style={styles.button} onPress={() => this.toggleEdit(item)}>
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
                             { index > 0 ? 
@@ -160,7 +160,7 @@ export default class Attribute extends React.Component{
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
                             { index > 2 ? 
-                            <TouchableOpacity style={styles.button} onPress={() => this.toggleEdit(item)}>
+                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
                             </TouchableOpacity> : null
                             }
