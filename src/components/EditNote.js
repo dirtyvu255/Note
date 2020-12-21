@@ -379,21 +379,23 @@ const styles = EStyleSheet.create({
     marginBottom: '0.5rem'
   },
   containerAlert: {
-      backgroundColor: '#fff',
-      borderRadius: 25,
-      justifyContent: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    justifyContent: 'center',
+    height: '14rem',
+    width: '16rem',
+    alignSelf: 'center'
   },
   imageAlert: {
       height: '4.5rem',
       width: '4.5rem',
       alignSelf: 'center',
-      marginVertical: '2rem'
+      marginBottom: '2rem',
   },
   nameAlert: {
       fontWeight: '500',
-      fontSize: '2rem',
+      fontSize: '1.7rem',
       textAlign: 'center',
-      marginBottom: '1rem'
-  }
+  },
 });
 

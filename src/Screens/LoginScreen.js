@@ -98,9 +98,12 @@ const styles = EStyleSheet.create({
       alignItems: 'center',
   },
   footer:{
-      flex: 1.2,
+      flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      position: 'absolute',
+      bottom: '-1rem',
+      height: '50%'
   },
   item:{
       width: screenWidth - 60,

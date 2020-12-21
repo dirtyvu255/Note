@@ -147,8 +147,8 @@ render(){
           {this.state.data.length === 0 ? (
             <View>
               <Text style={styles.nonTask}>You have no tasks now!</Text>
-              <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Note')}>
-                <Text style={styles.buttonName}>Create one</Text>
+              <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Note', {create: true})}>
+                <Text style={styles.buttonName}>CREATE ONE</Text>
               </TouchableOpacity>
             </View>
           ): 
@@ -230,8 +230,9 @@ render(){
     nonTask: {
       fontSize: '2rem',
       fontWeight: '600',
-      marginTop: '5%',
-      textAlign: 'center'
+      marginTop: '18rem',
+      textAlign: 'center',
+      marginBottom: '2rem'
     },
     buttonName:{
       fontSize: '1rem',

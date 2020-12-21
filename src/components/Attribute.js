@@ -13,7 +13,6 @@ export default class Attribute extends React.Component{
             isVisible: false,
             isModalVisible: false,
             isShowDelete: false,
-            isDelete: true,
             nameCategory: this.props.item.nameCategory,
             nameStatus: this.props.item.nameStatus,
             namePriority: this.props.item.namePriority,
@@ -23,63 +22,61 @@ export default class Attribute extends React.Component{
 
     update = async(id,type) => {
         const userID =  await AsyncStorage.getItem('userID')
-        if(type == "Category"){
-            if(this.state.nameCategory == '')
-                this.setState({errorDelete: 'This field can not be blank'})
-            else if (this.props.data.find(ele => ele.nameCategory == this.state.nameCategory))
-                this.setState({error : 'That name is already in use'})
-            else
-            firestore()
-                .collection(`Users/${userID}/Category`)
-                .doc(`${id}`)
-                .update({
-                    nameCategory: this.state.nameCategory,
-                })
-                .then( () => {
-                    this.toggleModal();
-                    this.hideButton();
-                });
-        }
-        if(type == "Status"){
-            if(this.state.nameStatus == '')
-                this.setState({error: 'This field can not be blank'})
-            else if (this.props.data.find(ele => ele.nameStatus == this.state.nameStatus))
-                this.setState({error : 'That name is already in use'})
-            else
-            firestore()
-                .collection(`Users/${userID}/Status`)
-                .doc(`${id}`)
-                .update({
-                    nameStatus: this.state.nameStatus,
-                })
-                .then(() => {
-                    this.toggleModal();
-                    this.hideButton();
-                });
-        }
-        if(type == "Priority"){
-            if(this.state.namePriority == '')
-                this.setState({error: 'This field can not be blank'})
-            else if (this.props.data.find(ele => ele.namePriority == this.state.namePriority))
-                this.setState({error : 'That name is already in use'})
-            else
-            firestore()
-                .collection(`Users/${userID}/Priority`)
-                .doc(`${id}`)
-                .update({
-                    namePriority: this.state.namePriority,
-                })
-                .then(() => {
-                    this.toggleModal();
-                    this.hideButton();
-                });
-        }
+            if(type == "Category"){
+                if(this.state.nameCategory == '')
+                    this.setState({errorDelete: 'This field can not be blank'})
+                else if (this.props.data.find(ele => ele.nameCategory == this.state.nameCategory))
+                    this.setState({error : 'That name is already in use'})
+                else
+                firestore()
+                    .collection(`Users/${userID}/Category`)
+                    .doc(`${id}`)
+                    .update({
+                        nameCategory: this.state.nameCategory,
+                    })
+                    .then( () => {
+                        this.toggleModal();
+                        this.hideButton();
+                    });
+            }
+            if(type == "Status"){
+                if(this.state.nameStatus == '')
+                    this.setState({error: 'This field can not be blank'})
+                else if (this.props.data.find(ele => ele.nameStatus == this.state.nameStatus))
+                    this.setState({error : 'That name is already in use'})
+                else
+                firestore()
+                    .collection(`Users/${userID}/Status`)
+                    .doc(`${id}`)
+                    .update({
+                        nameStatus: this.state.nameStatus,
+                    })
+                    .then(() => {
+                        this.toggleModal();
+                        this.hideButton();
+                    });
+            }
+            if(type == "Priority"){
+                if(this.state.namePriority == '')
+                    this.setState({error: 'This field can not be blank'})
+                else if (this.props.data.find(ele => ele.namePriority == this.state.namePriority))
+                    this.setState({error : 'That name is already in use'})
+                else
+                firestore()
+                    .collection(`Users/${userID}/Priority`)
+                    .doc(`${id}`)
+                    .update({
+                        namePriority: this.state.namePriority,
+                    })
+                    .then(() => {
+                        this.toggleModal();
+                        this.hideButton();
+                    });
+                }
     }
     delete = async(item,type) => {
     const userID =  await AsyncStorage.getItem('userID') 
     if(item.count === 0 ){
-            this.toggleDelete() 
-            this.setState({isDelete: false})
         if(type == "Category"){
             firestore()
                 .collection(`Users/${userID}/Category`)
@@ -100,12 +97,22 @@ export default class Attribute extends React.Component{
         }
     } else {
         this.toggleDelete() 
-        this.setState({isDelete: false})
     }
     }
+
     toggleModal(){
         this.setState({isModalVisible: !this.state.isModalVisible})
         this.setState({error: ''})
+    }
+    
+    toggleEdit(item){
+        if(item.count == 0 ){
+            this.setState({isModalVisible: !this.state.isModalVisible})
+            this.setState({error: ''})
+        }
+        else {
+            this.toggleDelete() 
+        }
     }
     showButton(){
         this.setState({isVisible: true})
@@ -118,7 +125,6 @@ export default class Attribute extends React.Component{
     }
     render(){
         const {item, type, index} = this.props
-        console.log(item)
         return(
             <TouchableOpacity style={styles.listWrapper} onLongPress={() => this.showButton()} onPress={() => this.hideButton()}>
                 {type=="Category" ?(
@@ -150,11 +156,11 @@ export default class Attribute extends React.Component{
                         </View>
                         {this.state.isVisible ? (
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={() => this.toggleModal()}>
+                            <TouchableOpacity style={styles.button} onPress={() => this.toggleEdit(item)}>
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
                             { index > 2 ? 
-                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
+                            <TouchableOpacity style={styles.button} onPress={() => this.toggleEdit(item)}>
                                 <Text style={styles.buttonText}>Delete</Text>
                             </TouchableOpacity> : null
                             }
@@ -170,7 +176,7 @@ export default class Attribute extends React.Component{
                         </View>
                         {this.state.isVisible ? (
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={() => this.toggleModal()}>
+                            <TouchableOpacity style={styles.button} onPress={() => this.toggleEdit(item)}>
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
                             { index > 2 ? 
@@ -231,24 +237,13 @@ export default class Attribute extends React.Component{
                         </View>  
                 </Modal>
                 <Modal isVisible={this.state.isShowDelete} onBackdropPress={()=>this.toggleDelete()}>
-                    {this.state.isDelete ? (
-                    <View style={styles.modalContainer}>         
-                        <Image 
-                        source={require('../images/tick.png')}
-                        style={styles.imageAlert}
-                        />
-                        <Text style={styles.titleAlert}>Deleted!</Text>
-                    </View>
-                    ) : (
-                    <View style={styles.modalContainer}>         
+                    <View style={styles.containerAlert}>         
                         <Image 
                         source={require('../images/cancel.png')}
                         style={styles.imageAlert}
                         />
-                        <Text style={styles.titleAlert}>Used properties, cannot be deleted!</Text>
-                    </View>
-                    )}
-                    
+                        <Text style={styles.nameAlert}>Used properties, cannot be changed!</Text>
+                    </View>           
                 </Modal>
             </TouchableOpacity>
         )
@@ -329,16 +324,24 @@ const styles = EStyleSheet.create({
         color: 'red', 
         marginBottom: '1.5rem'
       },
-      imageAlert: {
-        height: '4.5rem',
-        width: '4.5rem',
+      containerAlert: {
+        backgroundColor: '#fff',
+        borderRadius: 25,
+        justifyContent: 'center',
+        height: '14rem',
+        width: '16rem',
         alignSelf: 'center',
-        marginVertical: '2rem'
-    },
-    titleAlert: {
-        marginBottom: '2rem',
-        fontSize: '1.6rem',
-        fontWeight: 'bold',
-        textAlign: 'center'
+        paddingHorizontal: '1rem'
+      },
+      imageAlert: {
+          height: '4.5rem',
+          width: '4.5rem',
+          alignSelf: 'center',
+          marginBottom: '1.5rem',
+      },
+      nameAlert: {
+          fontWeight: '500',
+          fontSize: '1.5rem',
+          textAlign: 'center',
       },
 })

@@ -233,20 +233,19 @@ export default class SignIn extends React.Component{
             backgroundColor: '#fff',
             borderRadius: 25,
             justifyContent: 'center',
-            marginLeft: '2.5rem',
-            height: '16rem',
-            width: '18rem'
-        },
-        imageAlert: {
-            height: '4.5rem',
-            width: '4.5rem',
-            alignSelf: 'center',
-            marginBottom: '1.5rem',
-        },
-        nameAlert: {
-            fontWeight: '500',
-            fontSize: '1.7rem',
-            textAlign: 'center',
-            marginBottom: '0.5rem'
-        },
+            height: '14rem',
+            width: '16rem',
+            alignSelf: 'center'
+          },
+          imageAlert: {
+              height: '4.5rem',
+              width: '4.5rem',
+              alignSelf: 'center',
+              marginBottom: '2rem',
+          },
+          nameAlert: {
+              fontWeight: '500',
+              fontSize: '1.7rem',
+              textAlign: 'center',
+          },
     })

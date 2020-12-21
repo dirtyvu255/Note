@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View,TextInput,TouchableOpacity,Image,FlatList, ScrollView, SafeAreaView } from 'react-native';
+import {Text, View,TextInput,TouchableOpacity,Image,FlatList, SafeAreaView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet'
 import Header from '../components/Header'
 import CreateNote from '../components/CreateNote'
@@ -29,7 +29,7 @@ export default class NoteScreen extends React.Component {
   }
   componentDidMount(){
     const {type} = this.props
-      this.getData(type)
+      this.getData(type) 
   }
   getData = async() => {
     const userID = await AsyncStorage.getItem('userID')
