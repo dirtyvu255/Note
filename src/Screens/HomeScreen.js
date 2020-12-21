@@ -1,10 +1,9 @@
 import React from 'react';
-import { Dimensions, Text, View } from 'react-native';
+import { Dimensions, Text, View, ScrollView, TouchableOpacity,SafeAreaView } from 'react-native';
 import { PieChart } from "react-native-chart-kit";
 import Header from '../components/Header'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import firestore from '@react-native-firebase/firestore'
-import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
@@ -141,56 +140,75 @@ render(){
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`
   }
     return (
-      <View style={styles.container}>
+      <View style={styles.containerCustom}>      
+        <SafeAreaView/>
+        <View style={styles.container}>
         <Header name={`TOTAL NOTES: ${this.state.data.length}`}></Header>
-        <ScrollView showsVerticalScrollIndicator={false}>
-        <View>
-          <Text style={styles.titleChart}>Status</Text>
-          <PieChart
-            data={this.state.dataDashboard}
-            width={Dimensions.get('screen').width}
-            height={Dimensions.get('screen').height * 30 / 100}
-            chartConfig={chartConfig}
-            accessor={"population"}
-            backgroundColor={"transparent"}
-            paddingLeft={"20"}
-            absolute
-          />
+          {this.state.data.length === 0 ? (
+            <View>
+              <Text style={styles.nonTask}>You have no tasks now!</Text>
+              <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Note')}>
+                <Text style={styles.buttonName}>Create one</Text>
+              </TouchableOpacity>
+            </View>
+          ): 
+          <View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+            <View>
+              <Text style={styles.titleChart}>Status</Text>
+              <PieChart
+                data={this.state.dataDashboard}
+                width={Dimensions.get('screen').width}
+                height={Dimensions.get('screen').height * 30 / 100}
+                chartConfig={chartConfig}
+                accessor={"population"}
+                backgroundColor={"transparent"}
+                paddingLeft={"20"}
+                absolute
+              />
+            </View>
+            <View>
+              <Text style={styles.titleChart}>Priority</Text>
+              <PieChart
+                data={this.state.dataDashboardPri}
+                width={Dimensions.get('screen').width}
+                height={Dimensions.get('screen').height * 30 / 100}
+                chartConfig={chartConfig}
+                accessor={"population"}
+                backgroundColor={"transparent"}
+                paddingLeft={"20"}
+                absolute
+              />
+            </View>
+            <View style={styles.bottom}>
+              <Text style={styles.titleChart}>Category</Text>
+              <PieChart
+                data={this.state.dataDashboardCate}
+                width={Dimensions.get('screen').width}
+                height={Dimensions.get('screen').height * 30 / 100}
+                chartConfig={chartConfig}
+                accessor={"population"}
+                backgroundColor={"transparent"}
+                paddingLeft={"20"}
+                absolute
+              />
+            </View>
+            </ScrollView>
+          </View>}
         </View>
-        <View>
-          <Text style={styles.titleChart}>Priority</Text>
-          <PieChart
-            data={this.state.dataDashboardPri}
-            width={Dimensions.get('screen').width}
-            height={Dimensions.get('screen').height * 30 / 100}
-            chartConfig={chartConfig}
-            accessor={"population"}
-            backgroundColor={"transparent"}
-            paddingLeft={"20"}
-            absolute
-          />
-        </View>
-        <View style={styles.bottom}>
-          <Text style={styles.titleChart}>Category</Text>
-          <PieChart
-            data={this.state.dataDashboardCate}
-            width={Dimensions.get('screen').width}
-            height={Dimensions.get('screen').height * 30 / 100}
-            chartConfig={chartConfig}
-            accessor={"population"}
-            backgroundColor={"transparent"}
-            paddingLeft={"20"}
-            absolute
-          />
-        </View>
-        </ScrollView>
       </View>
     );
 }
 }
   const styles = EStyleSheet.create({
     container: {
-      backgroundColor: '#F0F2EF',
+      flex: 1,
+      backgroundColor: '#EEEEEE',
+      alignItems: 'center',
+    },
+    containerCustom:{
+      flex:1 ,
+      backgroundColor: '#5FBCE7',
     },
     titleChart: {
       fontSize: '2rem',
@@ -205,6 +223,28 @@ render(){
     },
     bottom:{
       marginBottom: '6rem'
-    }
+    },
+    nonNoteContainer: {
+      justifyContent: 'center'
+    },
+    nonTask: {
+      fontSize: '2rem',
+      fontWeight: '600',
+      marginTop: '5%',
+      textAlign: 'center'
+    },
+    buttonName:{
+      fontSize: '1rem',
+      fontWeight: 'bold',
+      color: 'white'
+    },
+    button:{
+      marginTop: '1rem',
+      backgroundColor: '#5FBCE7',
+      borderRadius: '5rem',
+      padding: '1rem',
+      alignItems: 'center',
+      marginHorizontal: '2.5rem',    
+    },
   });
   

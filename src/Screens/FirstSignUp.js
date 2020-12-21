@@ -38,7 +38,8 @@ export default class FirstSignUp extends React.Component{
             nameStatus: ele.nameStatus,
             dateAddStatus: this.state.date,
             date: new Date(),
-            color: Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')
+            color: Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+            count: 0
           })
         })
       })
@@ -60,7 +61,8 @@ export default class FirstSignUp extends React.Component{
             namePriority: ele.namePriority,
             dateAddPriority: this.state.date,
             date: new Date(),
-            color: Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')
+            color: Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+            count: 0
           })
         })
       })
@@ -81,7 +83,8 @@ export default class FirstSignUp extends React.Component{
             nameCategory: ele.nameCategory,
             dateAddCategory: this.state.date,
             date: new Date(),
-            color: Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')
+            color: Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+            count: 0
           })
         })
       })
@@ -103,28 +106,33 @@ export default class FirstSignUp extends React.Component{
     }
     render()  {
       return (
-      <View style={styles.container}>   
-          <Image
-              style={styles.logo}
-              source={require('../images/logo.png')}
-          />
-          <Text style={styles.title}>Welcome to NoteApp!</Text>
-          <Text style={styles. des}>Created by WhatAreYou Team!</Text>
+        <View style={styles.container}>   
+            <Image
+                style={styles.logo}
+                source={require('../images/logo.png')}
+            />
+            <Text style={styles.title}>Welcome to NoteApp!</Text>
+            <Text style={styles. des}>Created by WhatAreYou Team!</Text>
 
-          {this.state.confirm == 3 ? (
-            <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Note App')}>
-            <Text style={styles.buttonName}>Continue</Text>
-          </TouchableOpacity>
-          ) : <ActivityIndicator></ActivityIndicator>}
-      </View>
+            {this.state.confirm == 3 ? (
+              <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Note App')}>
+              <Text style={styles.buttonName}>Continue</Text>
+            </TouchableOpacity>
+            ) : <ActivityIndicator></ActivityIndicator>}
+        </View>
     );
   }
   }
 
   const styles = EStyleSheet.create({
-    container:{
-        flex: 1,
-        backgroundColor: '#F0F2EF'
+    container: {
+      flex: 1,
+      backgroundColor: '#EEEEEE',
+      alignItems: 'center',
+    },
+    containerCustom:{
+      flex:1 ,
+      backgroundColor: '#5FBCE7',
     },
     logo: {
       alignSelf: 'center',

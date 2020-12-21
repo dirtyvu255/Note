@@ -12,11 +12,14 @@ export default class EditNote extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      date: this.props.item.date,
+      date: new Date((new Date()).valueOf() + 1000*3600*24),
       formatedDate: this.props.item.planDate,
       category: this.props.item.category,
       priority: this.props.item.priority,
       status: this.props.item.status,
+      idCategory: this.props.item.idCategory,
+      idPriority: this.props.item.idPriority,
+      idStatus: this.props.item.idStatus,
       isShowPicker: false,
       des: this.props.item.description,
       title: this.props.item.title,
@@ -31,31 +34,29 @@ export default class EditNote extends React.Component {
     this.setStatus = this.setStatus.bind(this);
   }
   // attribute
-  setCategory = (cate) => {
-    this.setState({category: cate})
+  setCategory = (cate, idCate) => {
+    this.setState({category: cate, idCategory: idCate})
   }
-  setPriority = (pri) => {
-    this.setState({priority: pri})
+  setPriority = (pri, idPri) => {
+    this.setState({priority: pri, idPriority: idPri})
   }
-  setStatus = (sta) => {
-    this.setState({status: sta})
+  setStatus = (sta, idSta) => {
+    this.setState({status: sta, idStatus: idSta})
   }
+
 
   //picktime
   onChange = async(event,selectedDate) => {
     const currentDate = selectedDate || this.state.date;
     await this.setState({date: currentDate})
-    //formatDate
+  }
+
+  formatDate(){
     let date = this.state.date.getDate(); 
     let month = this.state.date.getMonth() + 1; 
     let year = this.state.date.getFullYear(); 
     let time = date + '/' + month + '/' + year
-    await this.setState({formatedDate: time})
-  }
-
-  //show modal picker
-  toggleShowPicker(){
-    this.setState({isShowPicker: !this.state.isShowPicker})
+    this.setState({formatedDate: time})
   }
 
   ShowAlert(name){
@@ -69,6 +70,8 @@ export default class EditNote extends React.Component {
 
   update = async() => {
     const userID =  await AsyncStorage.getItem('userID')
+    await this.formatDate()
+    await this.updateCountAttribute(userID)
     firestore()
         .collection(`Users/${userID}/Note`)
         .doc(`${this.state.id}`)
@@ -78,32 +81,110 @@ export default class EditNote extends React.Component {
             description: this.state.des,
             category: this.state.category,
             priority: this.state.priority,
-            status: this.state.status
+            status: this.state.status,
+            idCategory: this.state.idCategory,
+            idPriority: this.state.idPriority,
+            idStatus: this.state.idStatus
         })
-        .then( () => {
-          console.log('Updated!')
+        .then( async() => {
           this.ShowAlert('Updated!')
         });
     }
+  
+    updateCountAttribute(userID){
+      const incre = firestore.FieldValue.increment(1)
+      const decre = firestore.FieldValue.increment(-1)
+      if(this.state.idCategory !== this.props.item.idCategory){
+        firestore()
+          .collection(`Users/${userID}/Category`)
+          .doc(`${this.props.item.idCategory}`)
+          .update({
+            count: decre
+          })
+
+        firestore()
+          .collection(`Users/${userID}/Category`)
+          .doc(`${this.state.idCategory}`)
+          .update({
+            count: incre
+          })
+      }
+
+      if(this.state.idPriority !== this.props.item.idPriority){
+        firestore()
+          .collection(`Users/${userID}/Priority`)
+          .doc(`${this.props.item.idPriority}`)
+          .update({
+            count: decre
+          })
+
+        firestore()
+          .collection(`Users/${userID}/Priority`)
+          .doc(`${this.state.idPriority}`)
+          .update({
+            count: incre
+          })
+      }
+
+      if(this.state.idStatus !== this.props.item.idStatus){
+        firestore()
+          .collection(`Users/${userID}/Status`)
+          .doc(`${this.props.item.idStatus}`)
+          .update({
+            count: decre
+          })
+
+        firestore()
+          .collection(`Users/${userID}/Status`)
+          .doc(`${this.state.idStatus}`)
+          .update({
+            count: incre
+          })
+      }
+    
+
+    
+    }
 
     delete = async() => {
-      const userID =  await AsyncStorage.getItem('userID')
-        firestore()
-            .collection(`Users/${userID}/Note`)
-            .doc(`${this.state.id}`)
-            .delete()
-            .then(() => {
-              console.log('Note deleted!');
-              this.ShowAlert('Deleted!')
-            });
-  }
+    const userID =  await AsyncStorage.getItem('userID')
+      firestore()
+        .collection(`Users/${userID}/Note`)
+        .doc(`${this.state.id}`)
+        .delete()
+        .then( async () => {
+          await this.deleteCountAttribute(userID)
+          this.ShowAlert('Deleted!')
+        });
+    } 
+    deleteCountAttribute(userID){
+      const decre = firestore.FieldValue.increment(-1)
+    firestore()
+    .collection(`Users/${userID}/Category`)
+    .doc(`${this.props.item.idCategory}`)
+    .update({
+      count: decre
+    })
+    firestore()
+    .collection(`Users/${userID}/Status`)
+    .doc(`${this.props.item.idStatus}`)
+    .update({
+      count: decre
+    })
+    firestore()
+    .collection(`Users/${userID}/Priority`)
+    .doc(`${this.props.item.idPriority}`)
+    .update({
+      count: decre
+    })
+    }
 
   //set error
   catchError = () =>{
     if(this.state.title == ''){
       this.setState({typeError: 'title'})
       this.setState({error: 'Title can not be blank'})
-    } else if(this.state.formatedDate == ''){
+    } else if(this.state.date == ''){
       this.setState({typeError: 'date'})
       this.setState({error: 'Date can not be blank'})
     } else if(this.state.category == ''){
@@ -133,6 +214,7 @@ export default class EditNote extends React.Component {
             <TextInput 
               autoCorrect={false}
               placeholder="Type your title..."
+              placeholderTextColor="#A0ACBB"
               style={styles.textInput}
               value = {this.state.title}
               onChangeText={(text) => this.setState({title: text})}

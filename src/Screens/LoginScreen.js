@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, View, Dimensions, Platform } from 'react-native';
+import {Image, View, Dimensions, Platform, KeyboardAvoidingView } from 'react-native';
 import Carousel, {ParallaxImage} from 'react-native-snap-carousel';
 import * as Animatable from 'react-native-animatable';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -48,6 +48,7 @@ export default class LoginScreen extends React.Component {
 
   render()  {
     return (
+        <KeyboardAvoidingView style={{flex: 1}} behavior='padding'>
     <View style={styles.container}>   
         <Image
             style={styles.logo}
@@ -67,6 +68,7 @@ export default class LoginScreen extends React.Component {
             />
         </Animatable.View>        
     </View>
+    </KeyboardAvoidingView>
   );
 }
 }

@@ -38,31 +38,31 @@ export default class RenderSelection extends React.Component{
   activeCategory = async(item) =>{
     if(item.nameCategory == this.state.isActiveCate){
       await this.setState({isActiveCate: ''})
-      await this.props.setCategory('')
+      await this.props.setCategory('', '')
     }
     else{
       await this.setState({isActiveCate: item.nameCategory})
-      await this.props.setCategory(item.nameCategory)
+      await this.props.setCategory(item.nameCategory, item.id)
     }
   }
   activePriority = async(item) =>{
     if(item.namePriority == this.state.isActivePri){
       await this.setState({isActivePri: ''})
-      await this.props.setPriority('')
+      await this.props.setPriority('', '')
     }
     else{
       await this.setState({isActivePri: item.namePriority})
-      await this.props.setPriority(item.namePriority)
+      await this.props.setPriority(item.namePriority, item.id)
     }
   }
   activeStatus= async(item) =>{
     if(item.nameStatus == this.state.isActiveSta){
       await this.setState({isActiveSta: ''})
-      await this.props.setStatus('')
+      await this.props.setStatus('', '')
     }
     else{
       await this.setState({isActiveSta: item.nameStatus})
-    await this.props.setStatus(item.nameStatus)
+      await this.props.setStatus(item.nameStatus, item.id)
     }
   }
 

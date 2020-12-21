@@ -86,6 +86,7 @@ export default class SignIn extends React.Component{
                 <View style={styles.action}>
                     <TextInput 
                         placeholder="User Name"
+                        placeholderTextColor="#A0ACBB"
                         autoCapitalize="none"
                         style={styles.textInput}
                         onChangeText={(text) => this.setState({
@@ -98,6 +99,7 @@ export default class SignIn extends React.Component{
                     <TextInput 
                         secureTextEntry
                         placeholder="Password"
+                        placeholderTextColor="#A0ACBB"
                         autoCapitalize="none"
                         style={styles.textInput}
                         value={this.state.password}

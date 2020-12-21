@@ -17,6 +17,9 @@ export default class CreateNote extends React.Component {
       category: '',
       priority: '',
       status: '',
+      idCategory: '',
+      idPriority: '',
+      idStatus: '',
       isShowPicker: false,
       des: '',
       title: '',
@@ -29,14 +32,14 @@ export default class CreateNote extends React.Component {
     this.setStatus = this.setStatus.bind(this);
   }
   // attribute
-  setCategory = (cate) => {
-      this.setState({category: cate})
+  setCategory = (cate, idCate) => {
+      this.setState({category: cate, idCategory: idCate})
   }
-  setPriority = (pri) => {
-    this.setState({priority: pri})
+  setPriority = (pri, idPri) => {
+    this.setState({priority: pri, idPriority: idPri})
   }
-  setStatus = (sta) => {
-    this.setState({status: sta})
+  setStatus = (sta, idSta) => {
+    this.setState({status: sta, idStatus: idSta})
   }
 
   //picktime
@@ -67,6 +70,7 @@ export default class CreateNote extends React.Component {
   
   addNote = async() => {
     const userID =  await AsyncStorage.getItem('userID')
+    await this.formatDate()
      firestore()
       .collection(`Users/${userID}/Note`)
       .add({
@@ -76,12 +80,37 @@ export default class CreateNote extends React.Component {
         category: this.state.category,
         priority: this.state.priority,
         status: this.state.status,
-        date: this.state.date
+        date: this.state.date,
+        idCategory: this.state.idCategory,  
+        idPriority: this.state.idPriority,
+        idStatus: this.state.idStatus
       })
       .then(async() => {
-        console.log('Created!')
+        await this.countAttribute(userID)
         await this.ShowAlert()
       });
+  }
+
+  countAttribute(userID){
+    const incre = firestore.FieldValue.increment(1)
+    firestore()
+    .collection(`Users/${userID}/Category`)
+    .doc(`${this.state.idCategory}`)
+    .update({
+      count: incre
+    })
+    firestore()
+    .collection(`Users/${userID}/Status`)
+    .doc(`${this.state.idStatus}`)
+    .update({
+      count: incre
+    })
+    firestore()
+    .collection(`Users/${userID}/Priority`)
+    .doc(`${this.state.idPriority}`)
+    .update({
+      count: incre
+    })
   }
 
   //set error
@@ -121,6 +150,7 @@ export default class CreateNote extends React.Component {
                 autoCorrect={false}
                 maxLength={15}
                 placeholder="Type your title..."
+                placeholderTextColor="#A0ACBB"
                 style={styles.textInput}
                 value = {this.state.title}
                 onChangeText={(text) => this.setState({title: text})}

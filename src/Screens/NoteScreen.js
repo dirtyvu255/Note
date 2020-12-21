@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View,TextInput,TouchableOpacity,Image,FlatList, ScrollView } from 'react-native';
+import {Text, View,TextInput,TouchableOpacity,Image,FlatList, ScrollView, SafeAreaView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet'
 import Header from '../components/Header'
 import CreateNote from '../components/CreateNote'
@@ -47,10 +47,9 @@ export default class NoteScreen extends React.Component {
   }
 
   _search(text){
-    let dataTemp = []
     if(text)
     {
-      const newData = this.state.filterData.filter((item)=>{
+      const newData = this.state.data.filter((item)=>{
         const itemData = item.title
         ?item.title.toLowerCase()
         :''.toLowerCase();
@@ -73,11 +72,14 @@ export default class NoteScreen extends React.Component {
   
   render(){
     return (
-      <View style={styles.container}>
+      <View style={styles.containerCustom}>
+        <SafeAreaView/>
+        <View style={styles.container}>
         <Header name={'NOTE'}></Header>
         <View style={styles.wrapper2}>
           <TextInput
             placeholder="Search by name..."
+            placeholderTextColor="#A0ACBB"
             style={styles.searchBar}
             value={this.state.search}
             onChangeText={(text)=>this._search(text)}
@@ -133,6 +135,7 @@ export default class NoteScreen extends React.Component {
           />  
         ): null}   
       </View>
+      </View>
     );
   }
 }
@@ -144,10 +147,24 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  containerCustom:{
+    flex:1 ,
+    backgroundColor: '#5FBCE7'
+  },
   addButton:{
     position: 'absolute',
     bottom : '1.5rem',
     right: '1.5rem'
+  },
+  searchBar:{
+    marginHorizontal: '0.5rem',
+    backgroundColor: '#fff',
+    padding: '1rem',
+    borderRadius: '5rem',
+    shadowOffset:{  width: 1.5,  height: 2,  },
+    shadowColor: 'black',
+    shadowOpacity: 0.05,
+    marginVertical: '0.5rem'
   },
   categoryText:{
     marginTop: '0.5rem',
@@ -178,7 +195,6 @@ const styles = EStyleSheet.create({
     borderLeftColor: 'gray',
   },
   bottomComponent:{
-    marginTop: '0.5rem',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -198,25 +214,16 @@ const styles = EStyleSheet.create({
     backgroundColor: 'white',
     borderRadius: '2rem',
     padding: '1rem',
-    marginTop: '1rem',
     borderLeftWidth: '0.5rem',
     borderLeftColor: '#5FBCE7',
     borderColor: 'grey',
-    borderWidth: 0.3
+    borderWidth: 0.3,
+    marginTop:'0.5rem'
   },
   wrapper2:{
     flex: 4,
     width: '100%',
     padding: '0.5rem',
     // marginTop: '3rem'
-  },
-  searchBar:{
-    margin: '0.5rem',
-    backgroundColor: '#fff',
-    padding: '1rem',
-    borderRadius: '5rem',
-    shadowOffset:{  width: 1.5,  height: 2,  },
-    shadowColor: 'black',
-    shadowOpacity: 0.15,
   },
 });

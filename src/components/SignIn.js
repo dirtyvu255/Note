@@ -4,8 +4,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Modal from 'react-native-modal'
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
-// import AntDesign from 'react-native-vector-icons/AntDesign'
 
 
 export default class SignIn extends React.Component{
@@ -89,6 +87,7 @@ export default class SignIn extends React.Component{
                         placeholder="User Name"
                         autoCapitalize="none"
                         style={styles.textInput}
+                        placeholderTextColor="#A0ACBB"
                         onChangeText={(text) => this.setState({
                             userName: text
                             })} value={this.state.userName}
@@ -99,6 +98,7 @@ export default class SignIn extends React.Component{
                     <TextInput 
                         secureTextEntry
                         placeholder="Password"
+                        placeholderTextColor="#A0ACBB"
                         autoCapitalize="none"
                         style={styles.textInput}
                         value={this.state.password}

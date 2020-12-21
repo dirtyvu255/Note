@@ -59,7 +59,7 @@ const styles = EStyleSheet.create({
       fontWeight: 'bold',
       textAlign: 'center',
       color: '#F0F2EF',
-      marginTop: '3rem',
+      // marginTop: '3rem',
       marginBottom: '0.5rem'
     },
   });

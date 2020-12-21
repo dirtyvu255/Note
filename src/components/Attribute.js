@@ -7,27 +7,45 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 export default class Attribute extends React.Component{
-    state={
-        isVisible: false,
-        isModalVisible: false,
-        nameCategory: ''
-    }
+    constructor(props){
+        super(props)
+        this.state={
+            isVisible: false,
+            isModalVisible: false,
+            isShowDelete: false,
+            isDelete: true,
+            nameCategory: this.props.item.nameCategory,
+            nameStatus: this.props.item.nameStatus,
+            namePriority: this.props.item.namePriority,
+            error: ''
+        }
+    }   
 
     update = async(id,type) => {
         const userID =  await AsyncStorage.getItem('userID')
         if(type == "Category"){
-        firestore()
-            .collection(`Users/${userID}/Category`)
-            .doc(`${id}`)
-            .update({
-                nameCategory: this.state.nameCategory,
-            })
-            .then( () => {
-                 this.toggleModal();
-                 this.hideButton();
-            });
+            if(this.state.nameCategory == '')
+                this.setState({errorDelete: 'This field can not be blank'})
+            else if (this.props.data.find(ele => ele.nameCategory == this.state.nameCategory))
+                this.setState({error : 'That name is already in use'})
+            else
+            firestore()
+                .collection(`Users/${userID}/Category`)
+                .doc(`${id}`)
+                .update({
+                    nameCategory: this.state.nameCategory,
+                })
+                .then( () => {
+                    this.toggleModal();
+                    this.hideButton();
+                });
         }
         if(type == "Status"){
+            if(this.state.nameStatus == '')
+                this.setState({error: 'This field can not be blank'})
+            else if (this.props.data.find(ele => ele.nameStatus == this.state.nameStatus))
+                this.setState({error : 'That name is already in use'})
+            else
             firestore()
                 .collection(`Users/${userID}/Status`)
                 .doc(`${id}`)
@@ -40,6 +58,11 @@ export default class Attribute extends React.Component{
                 });
         }
         if(type == "Priority"){
+            if(this.state.namePriority == '')
+                this.setState({error: 'This field can not be blank'})
+            else if (this.props.data.find(ele => ele.namePriority == this.state.namePriority))
+                this.setState({error : 'That name is already in use'})
+            else
             firestore()
                 .collection(`Users/${userID}/Priority`)
                 .doc(`${id}`)
@@ -52,29 +75,37 @@ export default class Attribute extends React.Component{
                 });
         }
     }
-    delete = async(id,type) => {
-        const userID =  await AsyncStorage.getItem('userID')
+    delete = async(item,type) => {
+    const userID =  await AsyncStorage.getItem('userID') 
+    if(item.count === 0 ){
+            this.toggleDelete() 
+            this.setState({isDelete: false})
         if(type == "Category"){
             firestore()
                 .collection(`Users/${userID}/Category`)
-                .doc(`${id}`)
+                .doc(`${item.id}`)
                 .delete()
         }
-        if(type == "Status"){
+        if(type == "Status"){ 
             firestore()
                 .collection(`Users/${userID}/Status`)
-                .doc(`${id}`)
+                .doc(`${item.id}`)
                 .delete()
         }
         if(type == "Priority"){
             firestore()
                 .collection(`Users/${userID}/Priority`)
-                .doc(`${id}`)
+                .doc(`${item.id}`)
                 .delete()
         }
+    } else {
+        this.toggleDelete() 
+        this.setState({isDelete: false})
+    }
     }
     toggleModal(){
         this.setState({isModalVisible: !this.state.isModalVisible})
+        this.setState({error: ''})
     }
     showButton(){
         this.setState({isVisible: true})
@@ -82,8 +113,12 @@ export default class Attribute extends React.Component{
     hideButton(){
         this.setState({isVisible: false})
     }
+    toggleDelete(){
+        this.setState({isShowDelete: !this.state.isShowDelete})
+    }
     render(){
         const {item, type, index} = this.props
+        console.log(item)
         return(
             <TouchableOpacity style={styles.listWrapper} onLongPress={() => this.showButton()} onPress={() => this.hideButton()}>
                 {type=="Category" ?(
@@ -98,7 +133,7 @@ export default class Attribute extends React.Component{
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
                             { index > 0 ? 
-                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item.id, type)}>
+                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
                             </TouchableOpacity> : null
                             }
@@ -119,7 +154,7 @@ export default class Attribute extends React.Component{
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
                             { index > 2 ? 
-                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item.id, type)}>
+                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
                             </TouchableOpacity> : null
                             }
@@ -139,7 +174,7 @@ export default class Attribute extends React.Component{
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
                             { index > 2 ? 
-                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item.id, type)}>
+                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
                             </TouchableOpacity> : null
                             }
@@ -149,7 +184,6 @@ export default class Attribute extends React.Component{
                 ):null } 
 
                 <Modal isVisible={this.state.isModalVisible} onBackdropPress={()=>this.toggleModal()}>
-                    <View style={{backgroundColor: '#fff', borderRadius: 20}}>
                     <View style={styles.modalContainer}>
                         <View style={styles.headerModal}>
                             <Text style={styles.titleModal}>Edit {type}</Text>
@@ -158,6 +192,7 @@ export default class Attribute extends React.Component{
                         {type=="Category" ?(
                             <TextInput 
                             placeholder={item.nameCategory}
+                            placeholderTextColor="#A0ACBB"
                             style={styles.textInput}
                             value={this.state.nameCategory}
                             onChangeText={value => this.setState({nameCategory: value})}
@@ -166,6 +201,7 @@ export default class Attribute extends React.Component{
                         type=="Status" ?(
                             <TextInput 
                             placeholder={item.nameStatus}
+                            placeholderTextColor="#A0ACBB"
                             style={styles.textInput}
                             value={this.state.nameStatus}
                             onChangeText={value => this.setState({nameStatus: value})}
@@ -174,11 +210,12 @@ export default class Attribute extends React.Component{
                         type=="Priority" ?(
                             <TextInput 
                             placeholder={item.namePriority}
+                            placeholderTextColor="#A0ACBB"
                             style={styles.textInput}
                             value={this.state.namePriority}
                             onChangeText={value => this.setState({namePriority: value})}
                             />
-                        ):null }
+                        ) : null }
                         <TouchableOpacity
                             onPress={() => this.update(item.id, type)}
                         >
@@ -187,9 +224,31 @@ export default class Attribute extends React.Component{
                             style={styles.modalAddButton}
                             />
                         </TouchableOpacity>
-                        </View>          
+                        </View>
+                        {this.state.error !== '' ? (
+                            <Text style={styles.error}>{this.state.error}</Text>    
+                        ) : null}     
                         </View>  
-                    </View>  
+                </Modal>
+                <Modal isVisible={this.state.isShowDelete} onBackdropPress={()=>this.toggleDelete()}>
+                    {this.state.isDelete ? (
+                    <View style={styles.modalContainer}>         
+                        <Image 
+                        source={require('../images/tick.png')}
+                        style={styles.imageAlert}
+                        />
+                        <Text style={styles.titleAlert}>Deleted!</Text>
+                    </View>
+                    ) : (
+                    <View style={styles.modalContainer}>         
+                        <Image 
+                        source={require('../images/cancel.png')}
+                        style={styles.imageAlert}
+                        />
+                        <Text style={styles.titleAlert}>Used properties, cannot be deleted!</Text>
+                    </View>
+                    )}
+                    
                 </Modal>
             </TouchableOpacity>
         )
@@ -235,11 +294,14 @@ const styles = EStyleSheet.create({
     modalContainer:{
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#fff',
+        borderRadius: 20,
       },
       titleModal: {
         marginTop: '1rem',
         fontSize: '2rem',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'center'
       },
       modalAddButton:{
         width: '3rem',
@@ -262,5 +324,21 @@ const styles = EStyleSheet.create({
         width: '15rem',
         fontSize: '1.5rem',
         marginRight: '2rem',
+      },
+      error: {
+        color: 'red', 
+        marginBottom: '1.5rem'
+      },
+      imageAlert: {
+        height: '4.5rem',
+        width: '4.5rem',
+        alignSelf: 'center',
+        marginVertical: '2rem'
+    },
+    titleAlert: {
+        marginBottom: '2rem',
+        fontSize: '1.6rem',
+        fontWeight: 'bold',
+        textAlign: 'center'
       },
 })

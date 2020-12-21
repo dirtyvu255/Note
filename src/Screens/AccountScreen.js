@@ -130,111 +130,118 @@ export default class AccountScreen extends React.Component {
   }
   render(){
   return (
-    <View style={styles.container}>      
-      <Header name={'PROFILE'}></Header>
-      <View style={styles.wrapper2}>
-      <Image style={styles.avatar} source={require('../images/wear_mask.png')} />
-        <View>
-          <View style={styles.textInputWrapper}>
-            <Text style={styles.nameTag}>Name:</Text>
-            <Text style={styles.nameTag}>{this.state.name}</Text> 
-            <TouchableOpacity onPress={() => this.showConfirm('name')}>
-              <Image style={styles.editName} source={require('../images/edit.png')} />
+    <View style={styles.containerCustom}>      
+      <SafeAreaView/>
+        <View style={styles.container}>      
+          <Header name={'PROFILE'}></Header>
+          <View style={styles.wrapper2}>
+          <Image style={styles.avatar} source={require('../images/wear_mask.png')} />
+            <View>
+              <View style={styles.textInputWrapper}>
+                <Text style={styles.nameTag}>Name:</Text>
+                <Text style={styles.nameTag} numberOfLines={1}>{this.state.name}</Text> 
+                <TouchableOpacity onPress={() => this.showConfirm('name')}>
+                  <Image style={styles.editName} source={require('../images/edit.png')} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View>
+              <View style={styles.textInputWrapper}>
+                <Text style={styles.emailTag}>Email:</Text>
+                <Text style={styles.emailTag} numberOfLines={1}>{this.state.email}</Text>
+              </View>
+            </View>
+            <TouchableOpacity style={styles.button} onPress={() => this.showConfirm('pass')}>
+                <Text style={[styles.buttonName]}>Edit Password</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        <View>
-          <View style={styles.textInputWrapper}>
-            <Text style={styles.emailTag}>Email:</Text>
-            <Text style={styles.emailTag}>{this.state.email}</Text>
-          </View>
-        </View>
-        <TouchableOpacity style={styles.button} onPress={() => this.showConfirm('pass')}>
-            <Text style={[styles.buttonName]}>Edit Password</Text>
-        </TouchableOpacity>
-      </View>
-      {this.state.isPassConfirm ? (
-        <Modal isVisible={this.state.isPassConfirm} onBackdropPress={()=>this.hideConfirm()}>
-            <View style={styles.notiContainer}>
-                <Text style={styles.notiTitle}>EDIT PASSWORD</Text>
-                <Text style={styles.notiText}>Current Password</Text>
-                <TextInput
-                  secureTextEntry
-                  style={styles.textInput}
-                  placeholder="Current Password"
-                  onChangeText={(text) => this.setState({currentPassword: text})} 
-                  value={this.state.currentPassword}
+          {this.state.isPassConfirm ? (
+            <Modal isVisible={this.state.isPassConfirm} onBackdropPress={()=>this.hideConfirm()}>
+                <View style={styles.notiContainer}>
+                    <Text style={styles.notiTitle}>EDIT PASSWORD</Text>
+                    <Text style={styles.notiText}>Current Password</Text>
+                    <TextInput
+                      secureTextEntry
+                      style={styles.textInput}
+                      placeholderTextColor="#A0ACBB"
+                      placeholder="Current Password"
+                      onChangeText={(text) => this.setState({currentPassword: text})} 
+                      value={this.state.currentPassword}
+                    />
+                    {this.state.errorCurrent != '' ? (
+                      <Text style={styles.error}>{this.state.errorCurrent}</Text>
+                    ): null}
+                    <Text style={[styles.notiText, {marginTop: 25}]}>New Password</Text>
+                    <TextInput
+                      secureTextEntry
+                      style={styles.textInput}
+                      placeholderTextColor="#A0ACBB"
+                      placeholder="New Password"
+                      onChangeText={(text) => this.setState({newPassword: text})} 
+                      value={this.state.newPassword}
+                    />
+                    {this.state.errorNew != '' ? (
+                      <Text style={styles.error}>{this.state.errorNew}</Text>
+                    ): null}
+                    <Text style={[styles.notiText, {marginTop: 25}]}>Confirm New Password</Text>
+                    <TextInput
+                      secureTextEntry
+                      style={styles.textInput}
+                      placeholderTextColor="#A0ACBB"
+                      placeholder="Confirm New Password"
+                      onChangeText={(text) => this.setState({newPPassword: text})} 
+                      value={this.state.newPPassword}
+                    />
+                    {this.state.errorNewP != '' ? (
+                      <Text style={styles.error}>{this.state.errorNewP}</Text>
+                    ): null}
+                  <TouchableOpacity style={styles.buttonModal} onPress={() => this.editPass(this.state.currentPassword)}>
+                      <Text style={styles.buttonName}>Confirm</Text>
+                  </TouchableOpacity>
+                </View>
+            <Modal isVisible={this.state.isShowAlert} onBackdropPress={() => this.HideAlert()}>
+              <View style={styles.containerAlert}>
+                <Image 
+                    source={require('../images/tick.png')}
+                    style={styles.imageAlert}
                 />
-                {this.state.errorCurrent != '' ? (
-                  <Text style={styles.error}>{this.state.errorCurrent}</Text>
-                ): null}
-                <Text style={[styles.notiText, {marginTop: 25}]}>New Password</Text>
-                <TextInput
-                  secureTextEntry
-                  style={styles.textInput}
-                  placeholder="New Password"
-                  onChangeText={(text) => this.setState({newPassword: text})} 
-                  value={this.state.newPassword}
-                />
-                {this.state.errorNew != '' ? (
-                  <Text style={styles.error}>{this.state.errorNew}</Text>
-                ): null}
-                <Text style={[styles.notiText, {marginTop: 25}]}>Confirm New Password</Text>
-                <TextInput
-                  secureTextEntry
-                  style={styles.textInput}
-                  placeholder="Confirm New Password"
-                  onChangeText={(text) => this.setState({newPPassword: text})} 
-                  value={this.state.newPPassword}
-                />
-                {this.state.errorNewP != '' ? (
-                  <Text style={styles.error}>{this.state.errorNewP}</Text>
-                ): null}
-              <TouchableOpacity style={styles.buttonModal} onPress={() => this.editPass(this.state.currentPassword)}>
-                  <Text style={styles.buttonName}>Confirm</Text>
-              </TouchableOpacity>
-            </View>
-        <Modal isVisible={this.state.isShowAlert} onBackdropPress={() => this.HideAlert()}>
-          <View style={styles.containerAlert}>
-            <Image 
-                source={require('../images/tick.png')}
-                style={styles.imageAlert}
-            />
-            <Text style={styles.nameAlert}>Updated!</Text>
-          </View>
-        </Modal>
-      </Modal> 
-        ) : null}
-
-      {this.state.isNameConfirm ? (
-        <Modal isVisible={this.state.isNameConfirm} onBackdropPress={()=>this.hideConfirm()}>
-          <View style={styles.notiContainer}>
-            <Text style={styles.notiTitle}>EDIT NAME</Text>
-            <Text style={styles.notiText}>New Name</Text>
-            <TextInput              
-              style={styles.textInput}
-              placeholder="New Name"
-              onChangeText={(text) => this.setState({name: text})} 
-              value={this.state.name}
-            /> 
-            {this.state.error != '' ? (
-              <Text style={styles.error}>{this.state.error}</Text>
+                <Text style={styles.nameAlert}>Updated!</Text>
+              </View>
+            </Modal>
+          </Modal> 
             ) : null}
-            <TouchableOpacity style={styles.buttonModal} onPress={() => this.editName()}>
-                <Text style={styles.buttonName}>Confirm</Text>
-            </TouchableOpacity>
+
+          {this.state.isNameConfirm ? (
+            <Modal isVisible={this.state.isNameConfirm} onBackdropPress={()=>this.hideConfirm()}>
+              <View style={styles.notiContainer}>
+                <Text style={styles.notiTitle}>EDIT NAME</Text>
+                <Text style={styles.notiText}>New Name</Text>
+                <TextInput              
+                  style={styles.textInput}
+                  placeholder="New Name"
+                  placeholderTextColor="#A0ACBB"
+                  onChangeText={(text) => this.setState({name: text})} 
+                  value={this.state.name}
+                /> 
+                {this.state.error != '' ? (
+                  <Text style={styles.error}>{this.state.error}</Text>
+                ) : null}
+                <TouchableOpacity style={styles.buttonModal} onPress={() => this.editName()}>
+                    <Text style={styles.buttonName}>Confirm</Text>
+                </TouchableOpacity>
+              </View>
+              <Modal isVisible={this.state.isShowAlert} onBackdropPress={() => this.HideAlert()}>
+                <View style={styles.containerAlert}>
+                  <Image 
+                      source={require('../images/tick.png')}
+                      style={styles.imageAlert}
+                  />
+                  <Text style={styles.nameAlert}>Updated!</Text>
+                </View>
+              </Modal>  
+            </Modal> 
+            ) : null}
           </View>
-          <Modal isVisible={this.state.isShowAlert} onBackdropPress={() => this.HideAlert()}>
-            <View style={styles.containerAlert}>
-              <Image 
-                  source={require('../images/tick.png')}
-                  style={styles.imageAlert}
-              />
-              <Text style={styles.nameAlert}>Updated!</Text>
-            </View>
-            </Modal>  
-        </Modal> 
-        ) : null}
     </View>
   );
   }
@@ -243,8 +250,13 @@ export default class AccountScreen extends React.Component {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F2EF',
+    backgroundColor: '#EEEEEE',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  containerCustom:{
+    flex:1 ,
+    backgroundColor: '#5FBCE7',
   },
   avatar: {
     height: '10rem',
@@ -264,7 +276,8 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     padding: '0.5rem',
     alignItems: 'center',
-    marginBottom: '0.3rem' 
+    marginBottom: '0.3rem',
+    width: '65%'
   },
   nameTag:{
     fontSize: '1.2rem',
