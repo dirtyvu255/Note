@@ -36,32 +36,32 @@ export default class RenderSelection extends React.Component{
 
   //set color button
   activeCategory = async(item) =>{
-    if(item.nameCategory == this.state.isActiveCate){
+    if(item.id == this.state.isActiveCate){
       await this.setState({isActiveCate: ''})
       await this.props.setCategory('', '')
     }
     else{
-      await this.setState({isActiveCate: item.nameCategory})
+      await this.setState({isActiveCate: item.id})
       await this.props.setCategory(item.nameCategory, item.id)
     }
   }
   activePriority = async(item) =>{
-    if(item.namePriority == this.state.isActivePri){
+    if(item.id == this.state.isActivePri){
       await this.setState({isActivePri: ''})
       await this.props.setPriority('', '')
     }
     else{
-      await this.setState({isActivePri: item.namePriority})
+      await this.setState({isActivePri: item.id})
       await this.props.setPriority(item.namePriority, item.id)
     }
   }
   activeStatus= async(item) =>{
-    if(item.nameStatus == this.state.isActiveSta){
+    if(item.id == this.state.isActiveSta){
       await this.setState({isActiveSta: ''})
       await this.props.setStatus('', '')
     }
     else{
-      await this.setState({isActiveSta: item.nameStatus})
+      await this.setState({isActiveSta: item.id})
       await this.props.setStatus(item.nameStatus, item.id)
     }
   }
@@ -79,7 +79,7 @@ export default class RenderSelection extends React.Component{
             renderItem={({item})=>{
               return(
                 <TouchableOpacity 
-                  style={[styles.button,{ backgroundColor: this.state.isActiveCate == item.nameCategory ? '#5FBCE7' : '#CAD1C7'}]}
+                  style={[styles.button,{ backgroundColor: this.state.isActiveCate == item.id ? '#5FBCE7' : '#CAD1C7'}]}
                   onPress={() => this.activeCategory(item)} 
                 >
                   <Text>{item .nameCategory}</Text>
@@ -96,7 +96,7 @@ export default class RenderSelection extends React.Component{
             renderItem={({item})=>{
               return(
                 <TouchableOpacity 
-                  style={[styles.button,{ backgroundColor: this.state.isActivePri == item.namePriority ? '#5FBCE7' : '#CAD1C7'}]}
+                  style={[styles.button,{ backgroundColor: this.state.isActivePri == item.id ? '#5FBCE7' : '#CAD1C7'}]}
                   onPress={() => this.activePriority(item)} 
                 >
                   <Text>{item.namePriority}</Text>
@@ -113,7 +113,7 @@ export default class RenderSelection extends React.Component{
               renderItem={({item})=>{
                 return(
                   <TouchableOpacity 
-                    style={[styles.button,{ backgroundColor: this.state.isActiveSta == item.nameStatus ? '#5FBCE7' : '#CAD1C7'}]}
+                    style={[styles.button,{ backgroundColor: this.state.isActiveSta == item.id ? '#5FBCE7' : '#CAD1C7'}]}
                     onPress={() => this.activeStatus(item)} 
                   >
                     <Text>{item.nameStatus}</Text>

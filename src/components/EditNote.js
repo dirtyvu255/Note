@@ -251,15 +251,15 @@ export default class EditNote extends React.Component {
               onChangeText={(text) => this.setState({des: text})}
             />
           </View>
-          <RenderSelection type={'Category'} setCategory={this.setCategory} isActiveCate={this.state.category}/>
+          <RenderSelection type={'Category'} setCategory={this.setCategory} isActiveCate={this.state.idCategory}/>
           {this.state.typeError == 'cate' ? (
             <Text style={styles.error}>{this.state.error}</Text>
           ): null}
-          <RenderSelection type={'Priority'} setPriority={this.setPriority} isActivePri={this.state.priority}/>
+          <RenderSelection type={'Priority'} setPriority={this.setPriority} isActivePri={this.state.idPriority}/>
           {this.state.typeError == 'pri' ? (
             <Text style={styles.error}>{this.state.error}</Text>
           ): null}
-          <RenderSelection type={'Status'} setStatus={this.setStatus} isActiveSta={this.state.status}/>
+          <RenderSelection type={'Status'} setStatus={this.setStatus} isActiveSta={this.state.idStatus}/>
           {this.state.typeError == 'sta' ? (
             <Text style={styles.error}>{this.state.error}</Text>
           ): null}
