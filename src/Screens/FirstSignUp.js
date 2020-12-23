@@ -39,6 +39,7 @@ export default class FirstSignUp extends React.Component{
             dateAddStatus: this.state.date,
             date: new Date(),
             color: Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+            delete: true,
             count: 0
           })
         })
@@ -62,6 +63,7 @@ export default class FirstSignUp extends React.Component{
             dateAddPriority: this.state.date,
             date: new Date(),
             color: Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+            delete: true,
             count: 0
           })
         })
@@ -84,6 +86,7 @@ export default class FirstSignUp extends React.Component{
             dateAddCategory: this.state.date,
             date: new Date(),
             color: Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+            delete: true,
             count: 0
           })
         })

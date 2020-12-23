@@ -46,7 +46,7 @@ export default class StatusScreen extends React.Component {
   _search(text){
     if(text)
     {
-      const newData = this.state.filterData.filter((item)=>{
+      const newData = this.state.data.filter((item)=>{
         const itemData = item.nameStatus
         ?item.nameStatus.toLowerCase()
         :''.toLowerCase();
@@ -140,9 +140,9 @@ export default class StatusScreen extends React.Component {
             />
             <FlatList
                 data={this.state.filterData}
-                renderItem={({item, index})=>{
+                renderItem={({item})=>{
                   return(
-                    <Attribute item={item} type={'Status'} index={index} data={this.state.data}/>
+                    <Attribute item={item} type={'Status'} data={this.state.data}/>
                   )
                 }}
             />

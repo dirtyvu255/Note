@@ -48,7 +48,6 @@ export default class SignIn extends React.Component{
         await this.hideLoading()
         })
         .catch(error => {
-            console.log(error.code)
             if (error.code === 'auth/invalid-email') {
                 this.setState({errorID: 'That email is invalid!', errorPass: ''})
                 this.toggleLoading()
@@ -72,7 +71,6 @@ export default class SignIn extends React.Component{
           await AsyncStorage.setItem('email', email)
           await AsyncStorage.setItem('username', username)
         } catch (e){
-          console.log(e)
         }
     }
     
@@ -84,7 +82,7 @@ export default class SignIn extends React.Component{
                 </View>
                 <View style={styles.action}>
                     <TextInput 
-                        placeholder="User Name"
+                        placeholder="Username"
                         autoCapitalize="none"
                         style={styles.textInput}
                         placeholderTextColor="#A0ACBB"

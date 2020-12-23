@@ -47,7 +47,7 @@ export default class CategoryScreen extends React.Component {
   _search(text){
     if(text)
     {
-      const newData = this.state.filterData.filter((item)=>{
+      const newData = this.state.data.filter((item)=>{
         const itemData = item.nameCategory
         ?item.nameCategory.toLowerCase()
         :''.toLowerCase();
@@ -66,6 +66,8 @@ export default class CategoryScreen extends React.Component {
       })
     }
   }
+
+  
 
   toggleModal(){
     this.setState({isModalVisible: !this.state.isModalVisible})
@@ -113,7 +115,7 @@ export default class CategoryScreen extends React.Component {
     if(this.state.nameCategory == ''){
       this.setState({error : 'This field can not be empty'})
     }
-    else if (this.state.data.find(ele => ele.nameCategory == this.state.nameCategory)){
+    else if (this.state.data.find(ele => ele.nameCategory.toLowerCase() == this.state.nameCategory.toLowerCase() )){
       this.setState({error : 'That name is already in use'})
     }
     else{
@@ -139,9 +141,9 @@ render(){
           />
           <FlatList
               data={this.state.filterData}
-              renderItem={({item, index})=>{
+              renderItem={({item})=>{
                 return(
-                  <Attribute item={item} type={'Category'} index={index} data={this.state.data}/>
+                  <Attribute item={item} type={'Category'} data={this.state.data}/>
                 )
               }}
           />
@@ -254,7 +256,8 @@ const styles = EStyleSheet.create({
     marginTop: '1.5rem',
     fontSize: '1.5rem',
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    textTransform: 'uppercase'
   },
   textInputWrapper:{
     flexDirection: 'row',

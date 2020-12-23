@@ -10,6 +10,7 @@ export default class AccountScreen extends React.Component {
   constructor(props){
     super(props)
     this.state = {
+      name : '',
       email: "",
       currentPassword: "",
       newPassword: "",
@@ -53,7 +54,6 @@ export default class AccountScreen extends React.Component {
       })
       .then(
         async() => {
-        console.log('Profile Updated')      
         await this.getUser()
         await AsyncStorage.setItem('username', this.state.name)
         }
@@ -108,23 +108,23 @@ export default class AccountScreen extends React.Component {
   editPass = async(currentPassword) => {
     this.setState({errorNew: '', errorNewP: '',errorCurrent: ''})
     if( this.state.currentPassword == ''){
-      this.setState({errorCurrent: 'Password can not be blank'})
+      this.setState({errorCurrent: 'This field can not be blank'})
     }
     if( this.state.newPassword == ''){
-      this.setState({errorNew: 'Password can not be blank'})
+      this.setState({errorNew: 'This field can not be blank'})
     }
     if( this.state.newPPassword == ''){
-      this.setState({errorNewP: 'Password can not be blank'})
-    }
-    
-    if( this.state.currentPassword !== '' && this.state.newPPassword !== '' && this.state.newPassword !== ''){
+      this.setState({errorNewP: 'This field can not be blank'})
+    } else {
       if(this.state.newPassword.length < 6){
         this.setState({errorNew: 'Password is too weak'})
-      } else if(this.state.newPPassword !== this.state.newPassword){
-        this.setState({errowNewP: 'Confirm password does not match'})
-      } else {
+      } 
+      if(this.state.newPassword !== this.state.newPPassword) {
+        this.setState({errorNewP: 'Confirm password does not match'})
+      } 
+      else{
         await this.reAuth(currentPassword)
-      this.updatePassword()
+        this.updatePassword()
       }
     }
   }
@@ -158,13 +158,11 @@ export default class AccountScreen extends React.Component {
           {this.state.isPassConfirm ? (
             <Modal isVisible={this.state.isPassConfirm} onBackdropPress={()=>this.hideConfirm()}>
                 <View style={styles.notiContainer}>
-                    <Text style={styles.notiTitle}>EDIT PASSWORD</Text>
+                    <Text style={styles.notiTitle}>Change password</Text>
                     <Text style={styles.notiText}>Current Password</Text>
                     <TextInput
                       secureTextEntry
                       style={styles.textInput}
-                      placeholderTextColor="#A0ACBB"
-                      placeholder="Current Password"
                       onChangeText={(text) => this.setState({currentPassword: text})} 
                       value={this.state.currentPassword}
                     />
@@ -175,8 +173,6 @@ export default class AccountScreen extends React.Component {
                     <TextInput
                       secureTextEntry
                       style={styles.textInput}
-                      placeholderTextColor="#A0ACBB"
-                      placeholder="New Password"
                       onChangeText={(text) => this.setState({newPassword: text})} 
                       value={this.state.newPassword}
                     />
@@ -187,8 +183,6 @@ export default class AccountScreen extends React.Component {
                     <TextInput
                       secureTextEntry
                       style={styles.textInput}
-                      placeholderTextColor="#A0ACBB"
-                      placeholder="Confirm New Password"
                       onChangeText={(text) => this.setState({newPPassword: text})} 
                       value={this.state.newPPassword}
                     />
@@ -214,12 +208,10 @@ export default class AccountScreen extends React.Component {
           {this.state.isNameConfirm ? (
             <Modal isVisible={this.state.isNameConfirm} onBackdropPress={()=>this.hideConfirm()}>
               <View style={styles.notiContainer}>
-                <Text style={styles.notiTitle}>EDIT NAME</Text>
-                <Text style={styles.notiText}>New Name</Text>
+                <Text style={styles.notiTitle}>Edit name</Text>
                 <TextInput              
-                  style={styles.textInput}
+                  style={styles.textInputEditName}
                   placeholder="New Name"
-                  placeholderTextColor="#A0ACBB"
                   onChangeText={(text) => this.setState({name: text})} 
                   value={this.state.name}
                 /> 
@@ -270,7 +262,16 @@ const styles = EStyleSheet.create({
     borderBottomColor: 'gray',
     width: '16rem',
     paddingVertical: '0.5rem',
-    marginLeft: '0.1rem'
+    marginLeft: '0.1rem',
+  },
+  textInputEditName:{
+    fontSize: '1.1rem',
+    borderBottomWidth: '0.1rem',
+    borderBottomColor: 'gray',
+    width: '16rem',
+    paddingVertical: '0.5rem',
+    marginLeft: '0.1rem',
+    color: 'grey'
   },
   textInputWrapper:{
     flexDirection: 'row',
@@ -318,7 +319,8 @@ const styles = EStyleSheet.create({
   buttonName:{
     fontSize: '1rem',
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
+    textTransform: 'uppercase'
   },
   button:{
     marginTop: '1rem',
@@ -351,7 +353,8 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     marginTop: "0.5rem",
-    marginBottom: '0.5rem'
+    marginBottom: '0.5rem',
+    textTransform: 'uppercase'
   },
   notiText:{
     fontSize: '1.3rem',

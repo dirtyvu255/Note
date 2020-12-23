@@ -202,7 +202,6 @@ export default class EditNote extends React.Component {
   }
 
   render(){
-    console.log(this.props.item)
   return (
     <Modal isVisible={this.props.isShowEdit} onBackdropPress={()=>this.props.toggleShowEdit()}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false} > 

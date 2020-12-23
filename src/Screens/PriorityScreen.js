@@ -45,7 +45,7 @@ getData = async() => {
 _search(text){
   if(text)
   {
-    const newData = this.state.filterData.filter((item)=>{
+    const newData = this.state.data.filter((item)=>{
       const itemData = item.namePriority
       ?item.namePriority.toLowerCase()
       :''.toLowerCase();
@@ -64,6 +64,7 @@ _search(text){
     })
   }
 }
+
   toggleModal(){
     this.setState({isModalVisible: !this.state.isModalVisible})
     this.setState({namePriority: '', error: ''})
@@ -136,9 +137,9 @@ _search(text){
             />
             <FlatList
                 data={this.state.filterData}
-                renderItem={({item, index})=>{
+                renderItem={({item})=>{
                   return(
-                    <Attribute item={item} type={'Priority'} index={index} data={this.state.data}/>
+                    <Attribute item={item} type={'Priority'} data={this.state.data}/>
                   )
                 }}
             />

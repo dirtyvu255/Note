@@ -1,11 +1,12 @@
 import React from 'react';
-import {Text, View,TextInput,TouchableOpacity,Image,FlatList, SafeAreaView } from 'react-native';
+import {View,TextInput,TouchableOpacity,Image,FlatList, SafeAreaView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet'
 import Header from '../components/Header'
 import CreateNote from '../components/CreateNote'
 import EditNote from '../components/EditNote'
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Note from '../components/Note'
 
 export default class NoteScreen extends React.Component {
   constructor(props){
@@ -28,8 +29,7 @@ export default class NoteScreen extends React.Component {
     await this.setState({isShowEdit: !this.state.isShowEdit})
   }
   componentDidMount(){
-    const {type} = this.props
-      this.getData(type) 
+    this.getData() 
   }
   getData = async() => {
     const userID = await AsyncStorage.getItem('userID')
@@ -89,24 +89,7 @@ export default class NoteScreen extends React.Component {
           data={this.state.filterData}
           renderItem={({item})=>{
             return(
-              <TouchableOpacity activeOpacity={1} style={styles.wrapper} onPress={() => this.toggleShowEdit(item)}>
-                <View style={styles.headerComponent}>
-                  <View style={{width: '65%'}}>
-                    <Text numberOfLines={1} style={styles.titleText}>{item.title}</Text>
-                  </View>
-                  <Text style={styles.dateText}>{item.planDate}</Text>
-                </View>
-                {item.description ? (
-                  <View style={styles.middleComponent}>
-                  <Text numberOfLines={2} style={styles.desText}>Description: {item.description}</Text>
-                </View>
-                ) : null}
-                <Text style={styles.categoryText}>Category: {item.category}</Text>
-                <View style={styles.bottomComponent}>
-                  <Text style={styles.categoryText}>Status: {item.status}</Text>
-                  <Text style={styles.categoryText}>Priority: {item.priority}</Text>
-                </View>
-            </TouchableOpacity>
+              <Note id={item.id} onPress={() => this.toggleShowEdit(item)}></Note>
             )
           }}
           />
@@ -166,10 +149,6 @@ const styles = EStyleSheet.create({
     shadowOpacity: 0.05,
     marginVertical: '0.5rem'
   },
-  categoryText:{
-    marginTop: '0.5rem',
-    fontSize: '1.1rem',
-  },
   headerText:{
     padding: '0.5rem',
     fontSize: '2.5rem',
@@ -179,46 +158,6 @@ const styles = EStyleSheet.create({
   addButtonImage:{
     width: '4.5rem',
     height: '4.5rem',
-  },
-  dateText:{
-    fontSize: '1.2rem',
-    fontWeight: '400'
-  },
-  headerComponent:{
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  desScrollView:{
-    width: '12rem',
-    height: '4rem',
-    borderLeftWidth: '0.1rem',
-    borderLeftColor: 'gray',
-  },
-  bottomComponent:{
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  desText:{
-    fontSize: '1.1rem'
-  },
-  middleComponent:{
-    paddingTop: '0.5rem',
-  },
-
-  titleText:{
-    fontSize: '1.7rem',
-    fontWeight: '500'
-  },
-  wrapper:{
-    width: '100%',
-    backgroundColor: 'white',
-    borderRadius: '2rem',
-    padding: '1rem',
-    borderLeftWidth: '0.5rem',
-    borderLeftColor: '#5FBCE7',
-    borderColor: 'grey',
-    borderWidth: 0.3,
-    marginTop:'0.5rem'
   },
   wrapper2:{
     flex: 4,

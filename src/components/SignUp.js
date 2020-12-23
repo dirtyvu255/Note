@@ -71,7 +71,6 @@ export default class SignIn extends React.Component{
           await AsyncStorage.setItem('email', email)
           await AsyncStorage.setItem('password', password)
         } catch (e){
-          console.log(e)
         }
     }
 
@@ -85,7 +84,7 @@ export default class SignIn extends React.Component{
                 </View>
                 <View style={styles.action}>
                     <TextInput 
-                        placeholder="User Name"
+                        placeholder="Username"
                         placeholderTextColor="#A0ACBB"
                         autoCapitalize="none"
                         style={styles.textInput}

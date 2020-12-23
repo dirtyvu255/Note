@@ -106,13 +106,8 @@ export default class Attribute extends React.Component{
     }
 
     toggleEdit(item){
-        if(item.count == 0 ){
             this.setState({isModalVisible: !this.state.isModalVisible})
             this.setState({error: ''})
-        }
-        else {
-            this.toggleDelete() 
-        }
     }
     showButton(){
         this.setState({isVisible: true})
@@ -124,7 +119,7 @@ export default class Attribute extends React.Component{
         this.setState({isShowDelete: !this.state.isShowDelete})
     }
     render(){
-        const {item, type, index} = this.props
+        const {item, type} = this.props
         return(
             <TouchableOpacity style={styles.listWrapper} onLongPress={() => this.showButton()} onPress={() => this.hideButton()}>
                 {type=="Category" ?(
@@ -138,10 +133,11 @@ export default class Attribute extends React.Component{
                             <TouchableOpacity style={styles.button} onPress={() => this.toggleEdit(item)}>
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
-                            { index > 0 ? 
+                            { item.delete ? 
+                            null : 
                             <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
-                            </TouchableOpacity> : null
+                            </TouchableOpacity>
                             }
                         </View>
                         ) : null}
@@ -159,10 +155,11 @@ export default class Attribute extends React.Component{
                             <TouchableOpacity style={styles.button} onPress={() => this.toggleEdit(item)}>
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
-                            { index > 2 ? 
+                            { item.delete ? 
+                            null : 
                             <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
-                            </TouchableOpacity> : null
+                            </TouchableOpacity>
                             }
                         </View>
                         ) : null}
@@ -179,10 +176,11 @@ export default class Attribute extends React.Component{
                             <TouchableOpacity style={styles.button} onPress={() => this.toggleEdit(item)}>
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
-                            { index > 2 ? 
+                            { item.delete ? 
+                            null : 
                             <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
-                            </TouchableOpacity> : null
+                            </TouchableOpacity>
                             }
                         </View>
                         ) : null}
