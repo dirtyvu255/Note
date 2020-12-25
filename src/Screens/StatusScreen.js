@@ -163,7 +163,7 @@ export default class StatusScreen extends React.Component {
                 <Text style={styles.titleModal}>Add New</Text>
                 <View style={styles.textInputWrapper}>              
                   <TextInput 
-                  placeholder="Name..."
+                  placeholder="Status name..."
                   placeholderTextColor="#A0ACBB"
                   style={styles.textInput}
                   value={this.state.nameStatus}

@@ -110,7 +110,7 @@ export default class SignIn extends React.Component{
                         onPress={this.handleSignIn}
                         style={styles.button}
                     >   
-                        <Text style={styles.buttonText}>Sign In</Text>                                                              
+                        <Text style={styles.buttonText}>Login</Text>                                                              
                     </TouchableOpacity>
                 </View>
                 <View style={styles.instrucment}>
@@ -147,7 +147,7 @@ export default class SignIn extends React.Component{
         iconUser: {
             height: '4rem',
             width: '4rem',
-            marginBottom: '1rem'
+            marginBottom: '0.5rem'
         },
         textInput:{
             color: 'gray',
@@ -199,7 +199,9 @@ export default class SignIn extends React.Component{
             color: 'red', 
             fontWeight: '500',
             marginLeft: '0.5rem',
-            marginVertical: '0.1rem'
+            marginVertical: '0.2rem',
+            height: '1rem',
+            marginBottom: '0.7rem'
         },
         notiContainer: {
             marginTop: '-3.8rem',
@@ -252,11 +254,14 @@ export default class SignIn extends React.Component{
           },
         instrucment: {
             position: 'absolute',
-            marginTop: '19.5rem',
-            marginLeft: '12rem'
+            bottom: '-2.5rem',
+            // marginLeft: '12rem',
+            right: '1rem',
+            
         },
         instrucmentText: {
             fontWeight: '400',
-            fontSize: '1.1rem'
+            fontSize: '1.1rem',
+            // marginRight: '1rem'
         }
     })

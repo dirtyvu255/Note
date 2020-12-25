@@ -124,7 +124,7 @@ export default class Attribute extends React.Component{
             <TouchableOpacity style={styles.listWrapper} onLongPress={() => this.showButton()} onPress={() => this.hideButton()}>
                 {type=="Category" ?(
                     <View style={styles.attributeContainer}>
-                        <View>
+                        <View style={styles.infoAttri}>
                             <Text style={styles.textTitle}>{item.nameCategory}</Text>
                             <Text style={styles.textAmont}>{item.dateAddCategory}</Text>
                         </View>
@@ -135,18 +135,17 @@ export default class Attribute extends React.Component{
                             </TouchableOpacity>
                             { item.delete ? 
                             null : 
-                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
+                            <TouchableOpacity style={styles.buttonDelete} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
                             </TouchableOpacity>
                             }
                         </View>
                         ) : null}
                     </View>
-                    
                 ) : 
                 type=="Status" ?(
                     <View style={styles.attributeContainer}>
-                        <View>
+                        <View style={styles.infoAttri}>
                             <Text style={styles.textTitle}>{item.nameStatus}</Text>
                             <Text style={styles.textAmont}>{item.dateAddStatus}</Text>
                         </View>
@@ -157,7 +156,7 @@ export default class Attribute extends React.Component{
                             </TouchableOpacity>
                             { item.delete ? 
                             null : 
-                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
+                            <TouchableOpacity style={styles.buttonDelete} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
                             </TouchableOpacity>
                             }
@@ -167,7 +166,7 @@ export default class Attribute extends React.Component{
                 ):
                 type=="Priority" ?(
                     <View style={styles.attributeContainer}>
-                        <View>
+                        <View style={styles.infoAttri}>
                             <Text style={styles.textTitle}>{item.namePriority}</Text>
                             <Text style={styles.textAmont}>{item.dateAddPriority}</Text>
                         </View>
@@ -178,7 +177,7 @@ export default class Attribute extends React.Component{
                             </TouchableOpacity>
                             { item.delete ? 
                             null : 
-                            <TouchableOpacity style={styles.button} onPress={() => this.delete(item, type)}>
+                            <TouchableOpacity style={styles.buttonDelete} onPress={() => this.delete(item, type)}>
                                 <Text style={styles.buttonText}>Delete</Text>
                             </TouchableOpacity>
                             }
@@ -255,21 +254,25 @@ const styles = EStyleSheet.create({
     },
     attributeContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingBottom: '1rem',
+        borderBottomWidth: '0.03rem'
     },
     textTitle:{
         fontSize: '1.5rem',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     textAmont:{
         fontSize: '1rem',
         color: 'gray'
     },
+    infoAttri:{
+        // backgroundColor: 'red',
+        width: '80%',
+        justifyContent: 'center'
+    },
     buttonContainer: {
-        flexDirection: 'row',
-        // alignSelf: 'flex-end',
-        // position: 'absolute', 
-        marginTop: '0.5rem',
+        justifyContent:'center'
     },
     button: {
         width: '4rem',
@@ -279,6 +282,16 @@ const styles = EStyleSheet.create({
         alignItems: 'center',
         borderRadius: '1rem',
         justifyContent: 'center'
+    },
+    buttonDelete: {
+        width: '4rem',
+        height: '2rem',
+        backgroundColor: '#5FBCE7',
+        marginLeft: '0.7rem',
+        alignItems: 'center',
+        borderRadius: '1rem',
+        justifyContent: 'center',
+        marginTop: '0.5rem'
     },
     buttonText: {
         color: '#fff',
@@ -294,7 +307,8 @@ const styles = EStyleSheet.create({
         marginTop: '1rem',
         fontSize: '2rem',
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        textTransform: 'uppercase'
       },
       modalAddButton:{
         width: '3rem',

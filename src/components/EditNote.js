@@ -224,7 +224,7 @@ export default class EditNote extends React.Component {
           </View>
           <View>
             <Text style={styles.titleTag}>
-              Date
+              Deadline
             </Text>
             <DatePicker
               minimumDate={new Date((new Date()).valueOf() + 1000*3600*24)}

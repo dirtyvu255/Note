@@ -164,7 +164,7 @@ render(){
             <Text style={styles.titleModal}>Add New</Text>
             <View style={styles.textInputWrapper}>              
               <TextInput 
-              placeholder="Name category..."
+              placeholder="Category name..."
               placeholderTextColor="#A0ACBB"
               style={styles.textInput}
               value={this.state.nameCategory}

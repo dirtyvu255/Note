@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, TextInput, TouchableOpacity, Image, SafeAreaView  } from 'react-native';
+import {Text, View, TextInput, TouchableOpacity, Image, SafeAreaView, ActivityIndicator  } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import auth from '@react-native-firebase/auth';
 import Header from '../components/Header'
@@ -11,6 +11,7 @@ export default class AccountScreen extends React.Component {
     super(props)
     this.state = {
       name : '',
+      tempName: '',
       email: "",
       currentPassword: "",
       newPassword: "",
@@ -22,6 +23,7 @@ export default class AccountScreen extends React.Component {
       errorNewP: '',
       error: '',
       isShowAlert: false,
+      isLoading: false
     }
   }
   componentDidMount(){
@@ -30,10 +32,15 @@ export default class AccountScreen extends React.Component {
 
   getUser(){
     const user = auth().currentUser
+    
     if (user.displayName){
-      this.setState({name: user.displayName, email: user.email})
+      this.setState({name: user.displayName, email: user.email, tempName: user.displayName})
     }else{
-      this.setState({name: 'New User', email: user.email})
+      this.setState({name: 'New User', email: user.email, tempName: 'New User'})
+    }
+    if(this.state.name !== user.displayName){
+      this.setState({name: user.displayName, email: user.email, tempName: user.displayName})
+      
     }
   }
 
@@ -50,19 +57,15 @@ export default class AccountScreen extends React.Component {
   updateProfile(){
       auth().currentUser
       .updateProfile({
-        displayName: `${this.state.name}`
+        displayName: `${this.state.tempName}`
       })
       .then(
         async() => {
-        await this.getUser()
-        await AsyncStorage.setItem('username', this.state.name)
+        this.getUser()
+        this.setState({isLoading: false})
+        this.ShowAlert()
         }
       )
-      .catch(error => {
-        if(error.code == 'auth/weak-password'){
-          this.setState({errorNew: 'Password is too weak', errorCurrent: ''})
-        }
-      })
   }
 
   updatePassword(){
@@ -100,7 +103,7 @@ export default class AccountScreen extends React.Component {
       this.setState({error: 'Name can not be blank'})
     }
     else{
-      this.ShowAlert()
+      this.setState({isLoading: true})
       this.updateProfile()
     }
   }
@@ -212,8 +215,8 @@ export default class AccountScreen extends React.Component {
                 <TextInput              
                   style={styles.textInputEditName}
                   placeholder="New Name"
-                  onChangeText={(text) => this.setState({name: text})} 
-                  value={this.state.name}
+                  onChangeText={(text) => this.setState({tempName: text})} 
+                  value={this.state.tempName}
                 /> 
                 {this.state.error != '' ? (
                   <Text style={styles.error}>{this.state.error}</Text>
@@ -222,8 +225,13 @@ export default class AccountScreen extends React.Component {
                     <Text style={styles.buttonName}>Confirm</Text>
                 </TouchableOpacity>
               </View>
+              {this.state.isLoading ? (
+                  <ActivityIndicator 
+                  size="large" 
+                  />
+              ):null}
               <Modal isVisible={this.state.isShowAlert} onBackdropPress={() => this.HideAlert()}>
-                <View style={styles.containerAlert}>
+                  <View style={styles.containerAlert}>
                   <Image 
                       source={require('../images/tick.png')}
                       style={styles.imageAlert}
@@ -250,6 +258,12 @@ const styles = EStyleSheet.create({
     flex:1 ,
     backgroundColor: '#5FBCE7',
   },
+  loading: {
+    flex:1,
+    alignItems: 'center', 
+    position: 'absolute',
+    justifyContent: 'center'
+  },
   avatar: {
     height: '10rem',
     width: '10rem',
@@ -257,21 +271,19 @@ const styles = EStyleSheet.create({
     marginVertical: '1.5rem'
   },
   textInput:{
-    fontSize: '1.1rem',
-    borderBottomWidth: '0.1rem',
-    borderBottomColor: 'gray',
-    width: '16rem',
-    paddingVertical: '0.5rem',
-    marginLeft: '0.1rem',
+    color: 'gray',
+    backgroundColor: '#f2f2f2',
+    paddingHorizontal: '1rem',
+    paddingVertical: '0.7rem',
+    borderRadius: '0.5rem',
+    fontSize: '1rem',
   },
   textInputEditName:{
-    fontSize: '1.1rem',
-    borderBottomWidth: '0.1rem',
-    borderBottomColor: 'gray',
-    width: '16rem',
-    paddingVertical: '0.5rem',
-    marginLeft: '0.1rem',
-    color: 'grey'
+    backgroundColor: '#f2f2f2',
+    paddingHorizontal: '1rem',
+    paddingVertical: '0.7rem',
+    borderRadius: '0.5rem',
+    fontSize: '1rem',
   },
   textInputWrapper:{
     flexDirection: 'row',

@@ -33,10 +33,10 @@ export default class SignIn extends React.Component{
     handleSignUp = async() =>{
         this.setState({errorPass: '', errorID: ''})
         if(this.state.userName === "" ){
-            this.setState({errorID: 'This field can not be blank'})
+            this.setState({errorID: 'This field can not be blank!'})
         }
         if (this.state.password === ""){
-            this.setState({errorPass: 'This field can not be blank'})
+            this.setState({errorPass: 'This field can not be blank!'})
         }
         if(this.state.userName !== "" && this.state.password !== "" ){
         this.toggleLoading()
@@ -59,7 +59,7 @@ export default class SignIn extends React.Component{
                 this.toggleLoading()
             }
             else if(error.code === 'auth/weak-password'){
-                this.setState({errorPass: 'That password is to weak!', errorID: ''})
+                this.setState({errorPass: 'That password is too weak!', errorID: ''})
                 this.toggleLoading()
             }
         });
@@ -112,7 +112,7 @@ export default class SignIn extends React.Component{
                             onPress={this.handleSignUp}
                         >
                             <View style={styles.button}>    
-                                <Text style={styles.buttonText}>Sign Up</Text>                                                              
+                                <Text style={styles.buttonText}>Register</Text>                                                              
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -143,7 +143,7 @@ export default class SignIn extends React.Component{
         iconUser: {
             height: '4rem',
             width: '4rem',
-            marginBottom: '1rem'
+            marginBottom: '0.5rem'
         },
         textInput:{
             color: 'gray',
@@ -196,7 +196,9 @@ export default class SignIn extends React.Component{
             color: 'red', 
             fontWeight: '500',
             marginLeft: '0.5rem',
-            marginHorizontal: '0.1rem'
+            marginVertical: '0.2rem',
+            height: '1rem',
+            // marginBottom: '0.7rem'
         },
         notiContainer: {
             marginTop: '-3.8rem',

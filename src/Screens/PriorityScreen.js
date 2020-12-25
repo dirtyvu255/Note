@@ -160,7 +160,7 @@ _search(text){
                 <Text style={styles.titleModal}>Add New</Text>
                 <View style={styles.textInputWrapper}>              
                   <TextInput 
-                  placeholder="Name priority..."
+                  placeholder="Priority name..."
                   placeholderTextColor="#A0ACBB"
                   style={styles.textInput}
                   value={this.state.namePriority}

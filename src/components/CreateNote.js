@@ -161,7 +161,7 @@ export default class CreateNote extends React.Component {
             </View>
             <View>
               <Text style={styles.titleTag}>
-                Date
+                Deadline
               </Text>
               <View style={{marginVertical: 5}}>
               <DatePicker
