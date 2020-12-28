@@ -259,11 +259,14 @@ _search(text){
       padding: '2rem',
     },
     textInput:{
-      borderBottomWidth: '0.1rem',
-      borderBottomColor: '#F0F2EF',
       width: '15rem',
       fontSize: '1.5rem',
       marginRight: '2rem',
+      backgroundColor: '#f2f2f2',
+      paddingHorizontal: '1rem',
+      paddingVertical: '0.7rem',
+      borderRadius: '0.5rem',
+      fontSize: '1rem',
     },
     modalAddButton:{
       width: '3rem',

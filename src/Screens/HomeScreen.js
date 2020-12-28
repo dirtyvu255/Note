@@ -63,16 +63,12 @@ export default  class HomeScreen extends React.Component{
         for(let i = 0; i < data.length; i++){
           temp.push({
             name: data[i].nameStatus,
-            population: 0,
+            population: data[i].count,
             color: `#${data[i].color}`,
             legendFontColor: "#000",
             legendFontSize: 18
           })
         }      
-        for(let i = 0; i < temp.length; i++){
-          const count = this.state.data.filter(obj => obj.status === temp[i].name).length
-          temp[i].population += count
-        }
         this.setState({dataDashboard: temp})
       })
   }
@@ -91,16 +87,12 @@ export default  class HomeScreen extends React.Component{
         for(let i = 0; i < data.length; i++){
           temp.push({
             name: data[i].namePriority,
-            population: 0,
+            population: data[i].count,
             color: `#${data[i].color}`,
             legendFontColor: "#000",
             legendFontSize: 18
           })
         }      
-        for(let i = 0; i < temp.length; i++){
-          const count = this.state.data.filter(obj => obj.priority === temp[i].name).length
-          temp[i].population += count
-        }
         this.setState({dataDashboardPri: temp})
       })
   }
@@ -119,16 +111,12 @@ export default  class HomeScreen extends React.Component{
         for(let i = 0; i < data.length; i++){
           temp.push({
             name: data[i].nameCategory,
-            population: 0,
+            population: data[i].count,
             color: `#${data[i].color}`,
             legendFontColor: "#000",
             legendFontSize: 18
           })
         }      
-        for(let i = 0; i < temp.length; i++){
-          const count = this.state.data.filter(obj => obj.category === temp[i].name).length
-          temp[i].population += count
-        }
         this.setState({dataDashboardCate: temp})
       })
   }

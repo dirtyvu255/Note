@@ -24,7 +24,7 @@ export default class Attribute extends React.Component{
         const userID =  await AsyncStorage.getItem('userID')
             if(type == "Category"){
                 if(this.state.nameCategory == '')
-                    this.setState({errorDelete: 'This field can not be blank'})
+                    this.setState({error: 'This field can not be blank'})
                 else if (this.props.data.find(ele => ele.nameCategory == this.state.nameCategory))
                     this.setState({error : 'That name is already in use'})
                 else
@@ -325,12 +325,15 @@ const styles = EStyleSheet.create({
         flexDirection: 'row',
         padding: '2rem'
       },
-      textInput:{
-        borderBottomWidth: '0.1rem',
-        borderBottomColor: '#F0F2EF',        
+      textInput:{      
         width: '15rem',
         fontSize: '1.5rem',
         marginRight: '2rem',
+        backgroundColor: '#f2f2f2',
+        paddingHorizontal: '1rem',
+        paddingVertical: '0.7rem',
+        borderRadius: '0.5rem',
+        fontSize: '1rem',
       },
       error: {
         color: 'red', 

@@ -32,15 +32,11 @@ export default class AccountScreen extends React.Component {
 
   getUser(){
     const user = auth().currentUser
-    
     if (user.displayName){
       this.setState({name: user.displayName, email: user.email, tempName: user.displayName})
-    }else{
-      this.setState({name: 'New User', email: user.email, tempName: 'New User'})
     }
-    if(this.state.name !== user.displayName){
-      this.setState({name: user.displayName, email: user.email, tempName: user.displayName})
-      
+    else{
+      this.setState({name: 'New User', email: user.email, tempName: 'New User'})
     }
   }
 

@@ -17,35 +17,38 @@ export default class Note extends React.Component{
 
     componentDidMount(){
         this.getNote()
+        console.log(this.state.id)
     }
 
     getNote = async() => {
-        const userID = await AsyncStorage.getItem('userID')
-        firestore()
-          .collection(`Users/${userID}/Note`)
-          .doc(`${this.state.id}`)
-          .onSnapshot(snapshot => {
-            this.setState({note: snapshot.data()})
+      const userID = await AsyncStorage.getItem('userID')
+      firestore()
+        .collection(`Users/${userID}/Note`)
+        .doc(`${this.state.id}`)
+        .onSnapshot(snapshot => {
+          this.setState({note: snapshot.data()})
+          if(this.state.note){
             firestore()
-                .collection(`Users/${userID}/Category`)
-                .doc(`${this.state.note.idCategory}`)
-                .onSnapshot(snapshot => {
-                    this.setState({category: snapshot.data().nameCategory})
-            });
-            firestore()
-                .collection(`Users/${userID}/Status`)
-                .doc(`${this.state.note.idStatus}`)
-                .onSnapshot(snapshot => {
-                    this.setState({status: snapshot.data().nameStatus})
-            });
-            firestore()
-                .collection(`Users/${userID}/Priority`)
-                .doc(`${this.state.note.idPriority}`)
-                .onSnapshot(snapshot => {
-                    this.setState({priority: snapshot.data().namePriority})
-            });
-            })
-      }
+              .collection(`Users/${userID}/Category`)
+              .doc(`${this.state.note.idCategory}`)
+              .onSnapshot(snapshot => {
+                  this.setState({category: snapshot.data().nameCategory})
+          });
+          firestore()
+              .collection(`Users/${userID}/Status`)
+              .doc(`${this.state.note.idStatus}`)
+              .onSnapshot(snapshot => {
+                  this.setState({status: snapshot.data().nameStatus})
+          });
+          firestore()
+              .collection(`Users/${userID}/Priority`)
+              .doc(`${this.state.note.idPriority}`)
+              .onSnapshot(snapshot => {
+                  this.setState({priority: snapshot.data().namePriority})
+          });
+          }
+        })     
+    }
 
 
     render(){
@@ -53,20 +56,24 @@ export default class Note extends React.Component{
         const item = this.state.note
         return(
             <TouchableOpacity  style={styles.wrapper} onPress={onPress}>
-                <View style={styles.headerComponent}>
-                  <View style={{width: '65%'}}>
-                    <Text numberOfLines={1} style={styles.titleText}>{item.title}</Text>
-                  </View>
-                  <Text style={styles.dateText}>{item.planDate}</Text>
-                </View>
-                {item.description ? (
-                  <Text numberOfLines={2} style={styles.desText}>{item.description}</Text>
-                ) : null}
+                {item ? (
                 <View>
-                  <Text style={styles.categoryText}>Category: {this.state.category}</Text>
-                  <Text style={styles.categoryText}>Status: {this.state.status}</Text>
-                  <Text style={styles.categoryText}>Priority: {this.state.priority}</Text>
+                  <View style={styles.headerComponent}>
+                    <View style={{width: '65%'}}>
+                      <Text numberOfLines={1} style={styles.titleText}>{item.title}</Text>
+                    </View>
+                    <Text style={styles.dateText}>{item.planDate}</Text>
+                  </View>
+                  {item.description ? (
+                    <Text numberOfLines={2} style={styles.desText}>{item.description}</Text>
+                  ) : null}
+                  <View>
+                    <Text style={styles.categoryText}>Category: {this.state.category}</Text>
+                    <Text style={styles.categoryText}>Status: {this.state.status}</Text>
+                    <Text style={styles.categoryText}>Priority: {this.state.priority}</Text>
+                  </View>
                 </View>
+                ): null}
             </TouchableOpacity>
         )
     }
